@@ -1,27 +1,21 @@
 package com.vegstore.user_service.exception;
 
+
+import lombok.Getter;
+
+@Getter
 public class ApiErrorResponse {
-
     private String message;
-    private String path;
-    private int status;
+    private int statusCode;
+    private String errorCode;
 
-    public ApiErrorResponse(String message, String path, int status) {
+    public ApiErrorResponse() {}
+
+    public ApiErrorResponse(String message, int statusCode, String errorCode) {
         this.message = message;
-        this.path = path;
-        this.status = status;
+        this.statusCode = statusCode;
+        this.errorCode = errorCode;
     }
 
-    // ✅ Required getters for JSON serialization
-    public String getMessage() {
-        return message;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public int getStatus() {
-        return status;
-    }
+    // Setters too (optional for response)
 }

@@ -17,8 +17,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
         ApiErrorResponse error = new ApiErrorResponse(
                 ex.getMessage(),
-                request.getDescription(false),
-                HttpStatus.NOT_FOUND.value()
+
+                HttpStatus.NOT_FOUND.value(),
+                "User Not Found"
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -34,8 +35,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, WebRequest request) {
         ApiErrorResponse error = new ApiErrorResponse(
                 ex.getMessage(),
-                request.getDescription(false),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "SomeThing went wrong!!!"
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -44,10 +46,22 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleUserCreation(UserCreationException ex, WebRequest request) {
         ApiErrorResponse error = new ApiErrorResponse(
                 ex.getMessage(),
-                request.getDescription(false),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "SomeThing went wrong!!!"
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public  ResponseEntity<ApiErrorResponse> handleEmailExist (EmailAlreadyExistsException emailAlreadyExistsException, WebRequest request){
+        ApiErrorResponse error = new ApiErrorResponse(
+                emailAlreadyExistsException.getMessage(),
+                HttpStatus.CONFLICT.value(),  // 409 Conflict
+                "EMAIL_ALREADY_EXISTS"
+        );
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
 }
