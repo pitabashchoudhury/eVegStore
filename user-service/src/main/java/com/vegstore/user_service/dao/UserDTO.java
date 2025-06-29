@@ -1,7 +1,10 @@
 package com.vegstore.user_service.dao;
 
+import com.vegstore.user_service.entities.UserRole;
 import com.vegstore.user_service.enums.Role;
 import lombok.*;
+
+import java.util.Set;
 
 @Data
 @Getter
@@ -16,5 +19,5 @@ public class UserDTO {
 
     private  String phoneNumber;
 
-    private  Role role;
+    private Set<UserRole> role;
 }
