@@ -17,4 +17,8 @@ public interface UserService {
     public List<UserDTO> fetchAllUsers();
 
     public LoginResponseDTO login(LogInRequestDTO logInRequestDTO);
+
+    public UserDTO fetchUserById(Long id);
+
+    public String deleteUserByID(Long id);
 }

@@ -11,6 +11,7 @@ import com.vegstore.user_service.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<UserDTO>> getUser(@PathVariable String mail) {
-        Optional<UserDTO>user= userService.fetchUserByEmail(mail);
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+        UserDTO user= userService.fetchUserById(id);
         return ResponseEntity.ok(user);
     }
 
@@ -50,6 +51,7 @@ public class UserController {
         return ResponseEntity.ok(user.get());
     }
 
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/fetch-users")
     public ResponseEntity<?> fetchUsers() {
         List<UserDTO> user = userService.fetchAllUsers();
@@ -60,6 +62,16 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody LogInRequestDTO logInRequestDTO) {
         LoginResponseDTO user = userService.login(logInRequestDTO);
         return ResponseEntity.ok(user);
+    }
+
+
+
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id){
+
+        String message= userService.deleteUserByID(id);
+
+        return  ResponseEntity.ok(message);
     }
 
 

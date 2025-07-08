@@ -154,27 +154,23 @@ public  class UserServiceImpl implements UserService {
     public List<UserDTO> fetchAllUsers() {
 
 
-        try {
-            List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
 
 
-            return users.stream()
-                    .map(user -> {
-                        try {
-                            return UserMapper.toDTO(user);
-                        } catch (RuntimeException e) {
+        return users.stream()
+                .map(user -> {
+                    try {
+                        return UserMapper.toDTO(user);
+                    } catch (RuntimeException e) {
 
 
-                            return null; // or you can throw again or use Optional.empty()
-                        }
-                    })
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
+                        return null; // or you can throw again or use Optional.empty()
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
 
-        }catch (Exception sqlException){
-            throw  sqlException;
-        }
     }
 
 
@@ -211,6 +207,26 @@ public  class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
 
+
+    }
+
+    @Override
+    public UserDTO fetchUserById(Long id) {
+
+        Optional<User>ss= userRepository.findById(id);
+        return ss.map(UserMapper::toDTO).orElseThrow(() -> new ResourceNotFoundException(id.toString()));
+    }
+
+    @Override
+    public String deleteUserByID(Long id) {
+
+        try {
+            userRepository.deleteById(id);
+
+            return "Account deleted Successfully!!!!";
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

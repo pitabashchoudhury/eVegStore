@@ -31,7 +31,7 @@ public class CustomUserService  implements UserDetailsService {
                         user.get().getFullName(),
                         user.get().getPassword(),
 
-                        user.get().getRoles().stream().map(e->new SimpleGrantedAuthority(e.getName())).collect(Collectors.toSet())
+                        user.get().getRoles().stream().map(e->new SimpleGrantedAuthority("ROLE_" + e.getName())).collect(Collectors.toSet())
                 );
             }
 
